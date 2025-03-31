@@ -286,6 +286,24 @@
         }
     });
 
+        // Обработка формы регистрации (обновленная версия)
+    document.getElementById('registrationForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        try {
+            
+            showMessage('Регистрация успешно завершена! Перенаправление...');
+            
+            // Перенаправление после небольшой задержки
+            setTimeout(() => {
+                window.location.href = 'base_sample.html';
+            }, 1500);
+            
+        } catch (error) {
+            showMessage(error, 'error');
+        }
+    });
+
 </script>
 
 </body>
