@@ -1,0 +1,430 @@
+/* Основные стили */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #0f1621;
+    color: #e0e0e0;
+    line-height: 1.6;
+}
+
+.game-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #1a2230;
+    min-height: 100vh;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid #2a3a50;
+    margin-bottom: 20px;
+}
+
+.game-header h1 {
+    font-family: 'Orbitron', sans-serif;
+    color: #4fc3f7;
+    text-shadow: 0 0 10px rgba(79, 195, 247, 0.5);
+}
+
+.game-stats {
+    display: flex;
+    gap: 20px;
+}
+
+.stat {
+    background-color: #2a3a50;
+    padding: 10px 15px;
+    border-radius: 5px;
+    min-width: 150px;
+}
+
+.stat-label {
+    display: block;
+    font-size: 0.8rem;
+    color: #8b9bb4;
+}
+
+.game-nav {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.nav-btn {
+    padding: 10px 20px;
+    background-color: #2a3a50;
+    border: none;
+    color: #e0e0e0;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.nav-btn:hover {
+    background-color: #3a4a60;
+}
+
+.nav-btn.active {
+    background-color: #4fc3f7;
+    color: #0f1621;
+}
+
+.content-section {
+    display: none;
+    padding: 20px;
+    background-color: #2a3a50;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.content-section.active {
+    display: block;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.dashboard-card {
+    background-color: #1a2230;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.reputation-bar, .tech-bar {
+    margin-bottom: 15px;
+}
+
+.reputation-bar label, .tech-bar label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+progress {
+    width: 100%;
+    height: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+progress::-webkit-progress-bar {
+    background-color: #1a2230;
+    border-radius: 10px;
+}
+
+progress::-webkit-progress-value {
+    background-color: #4fc3f7;
+    border-radius: 10px;
+}
+
+.events-log {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.event {
+    padding: 10px;
+    margin-bottom: 5px;
+    background-color: #2a3a50;
+    border-radius: 5px;
+    font-size: 0.9rem;
+}
+
+.research-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.research-tab {
+    padding: 10px 20px;
+    background-color: #1a2230;
+    border: none;
+    color: #e0e0e0;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.research-tab.active {
+    background-color: #4fc3f7;
+    color: #0f1621;
+}
+
+.tech-tree {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+}
+
+.tech-node {
+    background-color: #1a2230;
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
+    position: relative;
+}
+
+.tech-node.unlocked {
+    background-color: #2a3a50;
+    border: 1px solid #4fc3f7;
+}
+
+.tech-node.special {
+    background-color: #3a1a50;
+    border: 1px solid #c73ff7;
+}
+
+.tech-node.locked {
+    opacity: 0.5;
+    filter: grayscale(80%);
+}
+
+.staff-controls {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.action-btn {
+    padding: 10px 20px;
+    background-color: #2a3a50;
+    border: none;
+    color: #e0e0e0;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.action-btn:hover {
+    background-color: #3a4a60;
+}
+
+.action-btn.primary {
+    background-color: #4fc3f7;
+    color: #0f1621;
+}
+
+.action-btn.primary:hover {
+    background-color: #6fd3ff;
+}
+
+.action-btn.danger {
+    background-color: #f44336;
+    color: white;
+}
+
+.action-btn.danger:hover {
+    background-color: #ff6659;
+}
+
+.staff-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.staff-card {
+    background-color: #1a2230;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.staff-card h3 {
+    color: #4fc3f7;
+    margin-bottom: 10px;
+}
+
+.staff-card p {
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+}
+
+.market-trends {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+}
+
+.trend-chart {
+    background-color: #1a2230;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.competitors-info {
+    background-color: #1a2230;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.competitors-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.competitor {
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #2a3a50;
+    border-radius: 5px;
+}
+
+.finance-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.finance-card {
+    background-color: #1a2230;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.finance-card h3 {
+    margin-bottom: 15px;
+    color: #4fc3f7;
+}
+
+.finance-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #2a3a50;
+    border: none;
+    color: #e0e0e0;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.finance-btn:hover {
+    background-color: #3a4a60;
+}
+
+.game-actions {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 0;
+}
+
+/* Модальные окна */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal-content {
+    background-color: #1a2230;
+    margin: 10% auto;
+    padding: 30px;
+    border-radius: 10px;
+    max-width: 600px;
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.hire-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.hire-option {
+    background-color: #2a3a50;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.hire-option h3 {
+    color: #4fc3f7;
+    margin-bottom: 10px;
+}
+
+.hire-option p {
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+}
+
+.hire-option button {
+    width: 100%;
+    padding: 8px;
+    background-color: #4fc3f7;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .game-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .game-stats {
+        margin-top: 15px;
+        width: 100%;
+        flex-wrap: wrap;
+    }
+    
+    .stat {
+        min-width: calc(50% - 10px);
+    }
+    
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .market-trends {
+        grid-template-columns: 1fr;
+    }
+    
+    .tech-tree {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .game-nav {
+        flex-wrap: wrap;
+    }
+    
+    .nav-btn {
+        flex-grow: 1;
+    }
+    
+    .tech-tree {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .hire-options {
+        grid-template-columns: 1fr;
+    }
+}
