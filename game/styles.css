@@ -428,3 +428,29 @@ progress::-webkit-progress-value {
         grid-template-columns: 1fr;
     }
 }
+
+.exchange-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.exchange-input {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.exchange-input input {
+    width: 100px;
+    padding: 5px;
+}
+
+.exchange-input select {
+    padding: 5px;
+}
+
+.exchange-rate {
+    font-size: 0.9em;
+    color: #666;
+}

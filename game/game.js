@@ -4,7 +4,7 @@ const game = {
     state: {
         day: 1,
         money: 1000000,
-        crypto: 0,
+        crypto: 0.015678,
         reputation: {
             investors: 50,
             government: 60,
@@ -35,14 +35,124 @@ const game = {
             neuroInterfaces: false,
             agi: false
         },
-        events: []
+        events: [],
+         crypto: 0,
+        bitcoinPrice: 50000, // текущая цена биткоина
+        bitcoinHistory: [], // история цен
     },
+
+    // Инициализация цен на биткоин
+    initBitcoinPrices() {
+        // Начальная цена
+        this.state.bitcoinPrice = 50000;
+        this.state.bitcoinHistory = Array(30).fill(50000);
+        
+        // Генерация начальной истории
+        for (let i = 0; i < 30; i++) {
+            this.state.bitcoinHistory[i] = this.generateNextBitcoinPrice(this.state.bitcoinHistory[i-1] || 50000);
+        }
+        this.state.bitcoinPrice = this.state.bitcoinHistory[this.state.bitcoinHistory.length - 1];
+    },
+
+
+    // Генерация следующей цены биткоина
+    generateNextBitcoinPrice(prevPrice) {
+        // Волатильность биткоина (5% в день)
+        const volatility = 0.05;
+        const changePercent = 2 * volatility * Math.random() - volatility;
+        let newPrice = prevPrice * (1 + changePercent);
+        
+        // Минимальная и максимальная цена
+        newPrice = Math.max(10000, Math.min(200000, newPrice));
+        
+        return Math.round(newPrice);
+    },
+
+    // Обновление цены биткоина
+    updateBitcoinPrice() {
+        const newPrice = this.generateNextBitcoinPrice(this.state.bitcoinPrice);
+        this.state.bitcoinHistory.shift(); // Удаляем старую цену
+        this.state.bitcoinHistory.push(newPrice); // Добавляем новую
+        this.state.bitcoinPrice = newPrice;
+        
+        // Событие при сильном изменении цены
+        const changePercent = (newPrice - this.state.bitcoinHistory[this.state.bitcoinHistory.length - 2]) / 
+                             this.state.bitcoinHistory[this.state.bitcoinHistory.length - 2] * 100;
+        
+        if (Math.abs(changePercent) > 10) {
+            const direction = changePercent > 0 ? "растет" : "падает";
+            this.addEvent("Резкое изменение курса BTC", 
+                         `Биткоин ${direction} на ${Math.abs(Math.round(changePercent))}%! Новый курс: $${newPrice.toLocaleString()}`);
+        }
+    },
+
+    // Обмен валюты
+    exchangeCurrency() {
+        const amount = parseInt(document.getElementById('exchange-amount').value) || 0;
+        const direction = document.getElementById('exchange-direction').value;
+        
+        if (amount <= 0) {
+            this.addEvent("Ошибка обмена", "Введите положительную сумму");
+            return;
+        }
+        
+        if (direction === 'to-btc') {
+            // Обмен долларов на BTC
+            const btcAmount = amount / this.state.bitcoinPrice;
+            
+            if (amount > this.state.money) {
+                this.addEvent("Ошибка обмена", "Недостаточно долларов для обмена");
+                return;
+            }
+            
+            this.state.money -= amount;
+            this.state.crypto += btcAmount;
+            this.addEvent("Обмен на BTC", 
+                         `Вы обменяли $${amount.toLocaleString()} на ${btcAmount.toFixed(8)} BTC по курсу $${this.state.bitcoinPrice.toLocaleString()}`);
+        } else {
+            // Обмен BTC на доллары
+            if (amount > this.state.crypto) {
+                this.addEvent("Ошибка обмена", "Недостаточно BTC для обмена");
+                return;
+            }
+            
+            const usdAmount = amount * this.state.bitcoinPrice;
+            this.state.money += usdAmount;
+            this.state.crypto -= amount;
+            this.addEvent("Обмен на USD", 
+                         `Вы обменяли ${amount.toFixed(8)} BTC на $${usdAmount.toLocaleString()} по курсу $${this.state.bitcoinPrice.toLocaleString()}`);
+        }
+        
+        this.updateUI();
+    },
+
+    // Обновление интерфейса обмена
+    updateExchangeUI() {
+        if (!this.state.bitcoinPrice) return;
+        
+        const exchangeRateEl = document.getElementById('exchange-rate');
+        if (exchangeRateEl) {
+            exchangeRateEl.textContent = `Курс: 1 BTC = $${this.state.bitcoinPrice.toLocaleString()}`;
+        }
+        
+        // Обновляем максимальные значения для ввода
+        const exchangeAmount = document.getElementById('exchange-amount');
+        const direction = document.getElementById('exchange-direction').value;
+        
+        if (direction === 'to-btc') {
+            exchangeAmount.max = this.state.money;
+        } else {
+            exchangeAmount.max = this.state.crypto;
+        }
+    },
+
 
     // Инициализация игры
     init() {
         this.loadGame();
         this.setupEventListeners();
         this.generateCompetitors();
+        this.initBitcoinPrices(); // Инициализируем цены на биткоин
         this.updateUI();
         this.setupCharts();
         
@@ -65,6 +175,12 @@ const game = {
                 document.getElementById(btn.dataset.section).classList.add('active');
             });
         });
+        
+        // Кнопка обмена валюты
+        document.getElementById('exchange-btn')?.addEventListener('click', () => this.exchangeCurrency());
+    
+        // Изменение направления обмена
+        document.getElementById('exchange-direction')?.addEventListener('change', () => this.updateExchangeUI());
 
         // Вкладки исследований
         document.querySelectorAll('.research-tab').forEach(tab => {
@@ -128,6 +244,9 @@ const game = {
     nextDay() {
         this.state.day++;
         
+        // Обновляем цену биткоина
+        this.updateBitcoinPrice();
+
         // Зарплаты сотрудников
         this.paySalaries();
         
@@ -941,6 +1060,9 @@ const game = {
             }
         }
         
+        // Обновляем интерфейс обмена
+        this.updateExchangeUI();
+
         // События
         const eventsLog = document.getElementById('events-log');
         if (eventsLog) {
