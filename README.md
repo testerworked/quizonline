@@ -3,7 +3,8 @@ add game it busisness
 
 <br>
 
-![game1](https://github.com/user-attachments/assets/a2d1b30c-1c5e-4846-bbdc-516b60d6193e)
+
+![main_001](https://github.com/user-attachments/assets/dcb25df7-c1ed-49bb-a99b-b038e3e84c26)
 
 
 <br>
